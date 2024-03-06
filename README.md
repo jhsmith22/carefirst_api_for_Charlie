@@ -1,7 +1,9 @@
 ## Bash commands to setup endpoint. Inside carefirst_api folder:
 
-## 0. Update the .env file with your own OPENAI API Key (it's okay if you are do a couple pings using mine, but for lots, please use your own)
-OPENAI_API_KEY=
+## 0. Based off of the env.template, create an .env file with your own OPENAI API Key as well as the MongoDB username and password (slacking these to you separately)
+OPENAI_API_KEY =
+MONGODB_USERNAME =
+MONGODB_PASSWORD=
 
 ## 1. Setup Poetry Environment
 poetry shell
