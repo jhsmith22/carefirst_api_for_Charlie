@@ -7,6 +7,7 @@ MONGODB_PASSWORD=
 
 ## 1. Setup Poetry Environment
 poetry shell
+poetry install
 
 ## 2. Start app (yes there are a bunch of warnings about depreciated langchain packages)
  poetry run uvicorn src.main:app 
