@@ -5,6 +5,10 @@ OPENAI_API_KEY =
 MONGODB_USERNAME =
 MONGODB_PASSWORD=
 
+# 0. Start Redis docker container:
+Make sure you have docker running
+docker run --name redis -p 6379:6379 -d redis
+
 ## 1. Setup Poetry Environment
 poetry shell
 poetry install
