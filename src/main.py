@@ -10,10 +10,10 @@ import random
 
 
 # Cache
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.redis import RedisBackend
-from fastapi_cache.decorator import cache
-from redis import asyncio
+# from fastapi_cache import FastAPICache
+# from fastapi_cache.backends.redis import RedisBackend
+# from fastapi_cache.decorator import cache
+# from redis import asyncio
 
 # Mongo
 import pymongo
@@ -83,7 +83,7 @@ def getMessageID():
     return message_id
 
 @app.post("/conversations/{conversation_id}")
-@cache(expire=60)
+#@cache(expire=60)
 async def conversations(conversation_id, text: Query):
 
     text.id = conversation_id
@@ -145,10 +145,10 @@ async def hello(name: str):
 
 
 #Redis
-LOCAL_REDIS_URL = "redis://localhost:6379/"
+# LOCAL_REDIS_URL = "redis://localhost:6379/"
 
-@app.on_event("startup")
-def startup():
-    HOST_URL = os.environ.get("REDIS_URL", LOCAL_REDIS_URL)
-    redis = asyncio.from_url(HOST_URL, encoding="utf8", decode_responses=True)
-    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+# @app.on_event("startup")
+# def startup():
+#     HOST_URL = os.environ.get("REDIS_URL", LOCAL_REDIS_URL)
+#     redis = asyncio.from_url(HOST_URL, encoding="utf8", decode_responses=True)
+#     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
