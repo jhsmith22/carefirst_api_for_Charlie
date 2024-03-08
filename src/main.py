@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict, Optional
 from typing_extensions import TypedDict
 from pydantic import BaseModel, Extra, ValidationError, validator, ConfigDict
@@ -10,22 +11,18 @@ import random
 
 
 # Cache
-# from fastapi_cache import FastAPICache
-# from fastapi_cache.backends.redis import RedisBackend
-# from fastapi_cache.decorator import cache
-# from redis import asyncio
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+from redis import asyncio
 
 # Mongo
 import pymongo
 from pymongo import MongoClient
 from pydantic_mongo import AbstractRepository, ObjectIdField
 
-# Model
-from src.llm_js import ChatChain
-#from llm_js import ChatChain
-
 from src.db_mongo import getURI
-#from db_mongo import getURI
+from src.llm_js import ChatChain
 
 # MongoDB
 connection_string= getURI()
@@ -74,10 +71,8 @@ class Feedback(BaseModel, extra='ignore'):
   
 def getMessageID():
 
-    # size of string
+    # Generate random string of length N
     N = 7
- 
-    # random string
     message_id = ''.join(random.choices(string.ascii_uppercase +
                                 string.digits, k=N))
     return message_id
@@ -114,6 +109,7 @@ async def conversations(conversation_id, text: Query):
     messages_repository.save(message)
 
     # Return Response
+    #return validated_response
     return {"output": validated_response}
 
 @app.post("/messages/{message_id}")
@@ -130,6 +126,7 @@ async def messages(message_id, user_feedback: Feedback):
                 {'$set': {"feedback": user_feedback.feedback}})   
 
         return {"output": user_feedback} 
+        #return user_feedback
     
     else:
         return
@@ -142,9 +139,16 @@ async def health():
 async def hello(name: str):
     return {"message": f"Hello {name}"}
 
+#Code that Charlie needed to run locally
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://localhost:8000"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
 
-
-#Redis
+# #Redis
 # LOCAL_REDIS_URL = "redis://localhost:6379/"
 
 # @app.on_event("startup")
