@@ -20,6 +20,9 @@ poetry install
 curl -o /dev/null -s -w "%{http_code}\n" -X POST "http://localhost:8000/conversations/9999" -H 'Content-Type: application/json' -d \
 '{"query": "how should i treat a bee sting"}'
 
+curl -o /dev/null -s -w "%{http_code}\n" -X POST "http://localhost:8000/messages/999" -H 'Content-Type: application/json' -d \
+'{"feedback": "True"}'
+
 ## Example python code to get response from endpoint
 
 conversation_id = '9999'
